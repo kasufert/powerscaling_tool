@@ -1,6 +1,7 @@
 #pragma once
 #include "headers.hpp"
 
+// Screen dimensions
 const float HEIGHT = 450.f;
 const float WIDTH = 800.f;
 
