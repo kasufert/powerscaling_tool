@@ -5,7 +5,6 @@
 #include "funcs.cpp"
 #include "types.cpp"
 #include "EventHandler.cpp"
-#include "main.h"
 
 int main()
 {
