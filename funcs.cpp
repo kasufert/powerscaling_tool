@@ -120,3 +120,47 @@ const char* const winnerToString(Winner w, bool isReversed)
     }
     return WINNER_STRINGS[w];
 }
+
+void DoSpinner(bool& isSpinning, sf::Clock& subSpinStarted, sf::Time& subSpinTime, sf::Text& text1, sf::Text& text2, sf::Sprite& sprite1, std::vector<NamedImg>& textures, sf::Sprite& sprite2, sf::Vector2f& text1loc, bool speedmode, sf::Text& rollText, Matchup& currentMatchup, bool& isReversed)
+{
+    if (isSpinning && subSpinStarted.getElapsedTime() > subSpinTime)
+    {
+        text1.setCharacterSize(30);
+        text2.setCharacterSize(30);
+
+        std::string choice1 = randomTexture(sprite1, textures, text1);
+        resize(sprite1);
+
+        std::string choice2 = randomTexture(sprite2, textures, text2);
+        resize(sprite2);
+
+    // Redo text 1 position
+        text1.setOrigin({ text1.getLocalBounds().width, 0 });
+        text1.setPosition(text1loc);
+
+        subSpinStarted.restart();
+        subSpinTime += subSpinTime * .12f;
+        if (subSpinTime.asSeconds() > .36f || speedmode)
+        {
+            isSpinning = false;
+            rollText.setPosition(371, 97);
+            rollText.setString("Roll");
+
+
+            // Set up matchup
+            currentMatchup = Matchup(choice1, choice2);
+            if (currentMatchup.first() == choice2)
+            {
+                isReversed = true;
+                fmt::print("Reversed.\n");
+            }
+            else
+            {
+                isReversed = false;
+                fmt::print("Not Reversed.\n");
+
+            }
+            fmt::print("Current Matchup: {} vs {}\n", choice1, choice2);
+        }
+    }
+}
